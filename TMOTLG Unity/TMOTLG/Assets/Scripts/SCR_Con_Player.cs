@@ -15,7 +15,19 @@ public class SCR_Con_Player : MonoBehaviour
     private Vector2 jumpDirection;
 
     private bool tapJumpRequest;
-    private bool isGrounded;
+   
+    [HideInInspector]
+    public bool isGrounded;
+    [SerializeField]
+    GameObject feetPos;
+    [SerializeField]
+    private float radius;
+    [SerializeField]
+    private LayerMask ground;
+
+    
+
+    
 
 
     private void Awake()
@@ -38,6 +50,12 @@ public class SCR_Con_Player : MonoBehaviour
     {
         JumpRequests();
 
+        isGrounded = Physics2D.OverlapCircle(feetPos.transform.position, radius, ground);
+
+    
+
+
+
     }
 
 
@@ -56,28 +74,29 @@ public class SCR_Con_Player : MonoBehaviour
     private void Jumping()
     {
         jumpDirection = new Vector2(0, 2.5f);
-       
 
-        if (Physics2D.Raycast(transformPos, transform.TransformDirection(0, -1, 0), 1f))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        
         
 
         if(tapJumpRequest)
         {
+            
+
             rb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Force);
 
             tapJumpRequest = false;
+            
                 
         }
 
+    
 
+
+
+       
     }
+
+   
 
     private void JumpRequests()
     {
@@ -86,8 +105,8 @@ public class SCR_Con_Player : MonoBehaviour
             tapJumpRequest = true;
             
         }
-
-       
+        
+      
     }
 
 }
